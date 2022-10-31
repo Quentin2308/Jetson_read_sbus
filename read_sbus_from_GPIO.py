@@ -1,4 +1,5 @@
-import pigpio
+#import pigpio
+import RPi.GPIO as GPIO
 import bitarray as ba
 import bitarray.util as bau
 import time
@@ -145,12 +146,13 @@ def _on_change(gpio,level,tick):
 class SbusReader:
     def __init__(self, gpio_pin):
         self.gpio_pin = gpio_pin #BCM pin
-        self.pi = pigpio.pi()
-        self.pi.set_mode(gpio_pin, pigpio.INPUT)
+        #self.pi = pigpio.pi()
+        self.pi.setup(gpio_pin, GPIO.IN)
     
     def begin_listen(self):
         global _latest_complete_packet_timestamp
-        self.pi.callback(self.gpio_pin, pigpio.EITHER_EDGE, _on_change)
+        #self.pi.callback(self.gpio_pin, pigpio.EITHER_EDGE, _on_change)
+        GPIO.add_event_detect(self.gpio_pin, GPIO.BOTH, callback=_on_change)
         _latest_complete_packet_timestamp = self.pi.get_current_tick()
     
     def end_listen(self):
