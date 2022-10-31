@@ -52,7 +52,8 @@ def device_test(reader):
     #servo used here is a Tower Pro Digital MG995R - different servos will require 
     #different pwm settings
 
-    import pigpio
+    #import pigpio
+    import RPi.GPIO as GPIO
     
     TRANSMITTER_MIN_VAL = 352
     TRANSMITTER_MAX_VAL = 2796
